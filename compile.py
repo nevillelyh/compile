@@ -47,6 +47,19 @@ def test_pretrained():
     print(output)
 
 
+def test_pony():
+    print('test pony')
+    from diffusers import DiffusionPipeline
+    pipe = DiffusionPipeline.from_pretrained("AstraliteHeart/pony-diffusion")
+    t1 = datetime.now()
+    pipe = torch.compile(pipe, backend="inductor")
+    t2 = datetime.now()
+    print(f'compile: {t2 - t1}')
+    prompt = "Astronaut in a jungle, cold color palette, muted colors, detailed, 8k"
+    image = pipe(prompt).images[0]
+    print(image)
+
+
 if __name__ == "__main__":
     # https://docs.pytorch.org/tutorials/recipes/torch_compile_caching_configuration_tutorial.html
     cache_dir = os.path.join(os.getcwd(), 'cache')
@@ -60,6 +73,7 @@ if __name__ == "__main__":
 
     import torch
 
-    test_f()
-    test_hub()
-    test_pretrained()
+    # test_f()
+    # test_hub()
+    # test_pretrained()
+    test_pony()
