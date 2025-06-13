@@ -1,5 +1,5 @@
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 
 # https://docs.pytorch.org/docs/stable/torch.compiler_get_started.html
 
@@ -51,13 +51,24 @@ def test_pony():
     print('test pony')
     from diffusers import DiffusionPipeline
     pipe = DiffusionPipeline.from_pretrained("AstraliteHeart/pony-diffusion")
-    t1 = datetime.now()
+    start = datetime.now()
+    pipe = pipe.to(device="cuda:0")
     pipe = torch.compile(pipe, backend="inductor")
-    t2 = datetime.now()
-    print(f'compile: {t2 - t1}')
     prompt = "Astronaut in a jungle, cold color palette, muted colors, detailed, 8k"
-    image = pipe(prompt).images[0]
-    print(image)
+    first = timedelta(0)
+    total = timedelta(0)
+    n = 100
+    for i in range(n):
+        t1 = datetime.now()
+        image = pipe(prompt).images[0]
+        t2 = datetime.now()
+        print(image)
+        print(f'predict: {t2 - t1}')
+        if i == 0:
+            first = t2 - start
+        total = total + (t2 - t1)
+    print(f'time to first: {first}')
+    print(f'average time: {total / n}')
 
 
 if __name__ == "__main__":

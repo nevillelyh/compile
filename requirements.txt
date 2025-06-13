@@ -1,5 +1,6 @@
 # uv pip install --torch-backend=cu126 --requirements requirements.txt
-torch==2.7.0+cu126
-transformers
+accelerate
 numpy
 pillow
+torch==2.7.0+cu126
+transformers
