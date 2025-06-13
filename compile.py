@@ -76,9 +76,14 @@ if __name__ == "__main__":
     cache_dir = os.path.join(os.getcwd(), 'cache')
     os.makedirs(cache_dir, exist_ok=True)
     os.environ['TORCHINDUCTOR_CACHE_DIR'] = cache_dir
+    #
+    # os.environ['TORCHINDUCTOR_FX_GRAPH_CACHE'] = '1'
+    # os.environ['TORCHINDUCTOR_AUTOGRAD_CACHE'] = '1'
 
-    os.environ['TORCHINDUCTOR_FX_GRAPH_CACHE'] = '1'
-    os.environ['TORCHINDUCTOR_AUTOGRAD_CACHE'] = '1'
+    os.environ['TORCHINDUCTOR_FX_GRAPH_REMOTE_CACHE'] = '1'
+    os.environ['TORCHINDUCTOR_AUTOGRAD_REMOTE_CACHE'] = '1'
+    os.environ['TORCHINDUCTOR_AUTOTUNE_REMOTE_CACHE'] = '1'
+    os.environ['TORCHINDUCTOR_REDIS_URL'] = 'redis://:torchpass@localhost'
 
     # os.environ['TORCHINDUCTOR_FORCE_DISABLE_CACHES'] = '1'
 
